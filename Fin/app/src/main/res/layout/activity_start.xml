@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.jair.fin.activities.StartActivity">
+
+    <TextView
+        android:text="monthly earnings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:id="@+id/monthly_earning_textView"
+        android:textSize="24sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:layout_below="@+id/monthly_earning_textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="143dp" />
+
+    <TextView
+        android:text="income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monthly_earning_textView"
+        android:layout_toLeftOf="@+id/monthly_earning_textView"
+        android:layout_toStartOf="@+id/monthly_earning_textView"
+        android:layout_marginTop="56dp"
+        android:id="@+id/income_textview"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/income_input"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_width="200dp"
+        android:layout_alignBaseline="@+id/income_textview"
+        android:layout_alignBottom="@+id/income_textview"
+        android:layout_toRightOf="@+id/income_textview"
+        android:layout_toEndOf="@+id/income_textview"
+        android:hint="0.00"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="monthly expenses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/monthly_expenses_textView"
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/income_textview"
+        android:layout_toEndOf="@+id/income_textview" />
+
+    <TextView
+        android:text="expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monthly_expenses_textView"
+        android:layout_toLeftOf="@+id/monthly_expenses_textView"
+        android:layout_toStartOf="@+id/monthly_expenses_textView"
+        android:layout_marginTop="57dp"
+        android:id="@+id/expense_textview"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/expense_input"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/expense_textview"
+        android:layout_alignBottom="@+id/expense_textview"
+        android:layout_alignLeft="@+id/income_input"
+        android:layout_alignStart="@+id/income_input"
+        android:hint="0.00"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="next"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/monthly_earning_textView"
+        android:layout_toEndOf="@+id/monthly_earning_textView"
+        android:layout_marginBottom="19dp"
+        android:id="@+id/next_custom_button"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:onClick="nextEvent"/>
+
+</RelativeLayout>

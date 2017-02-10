@@ -1,0 +1,56 @@
+Akshay
+
+die tasks van mij gaan helemaal goed hoor.
+bij jou zal de mogelijkheid er wel zijn dat hij errors geeft.
+dat is zo omdat ik van jou tasks nodig heb hoe je die logged in user gaat meesturen naar de mainactivity.
+ik heb een default user method in finDao class die de database vult, en een category fill method.
+
+dus laat me weten hoe je het doet.
+
+waaraan ik dacht
+j kan het sturen via intent.putExtra method
+
+of we maken een active user tabel
+
+ik vind de eerste optie wel beter.
+
+
+
+TODO
+storting = gewoon een transactie onder de category naam monthlyspending
+
+om de 30 dagen word er geld gestort.
+het gestorte geld + remaining van de maand voor de storting = nieuwe assets
+
+de 2 eerste categorien kunnen zijn:
+    monthly income
+    income
+        rede waarom:
+        dan weet je bij het progrrameren dat 1 en 2 bij earnings horen
+
+
+de resterende categorieen zijn:
+    entertainment
+    food
+    transportation
+    education etc
+
+de olap tabellen moeten gelinked zijn met en user
+we kunnen dat doen door de tabellen te linken met fk
+of we kunnen de tabellen onafhankelijk laten en de trigger de user_id laten meesturen
+
+delete,update statments moeten nog gedaan worden
+
+
+
+
+
+
+
+
+
+
+
+
+ciao,
+J

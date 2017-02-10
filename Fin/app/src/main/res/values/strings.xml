@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Fin</string>
+    <string name="sign_up">sign up</string>
+    <string name="log_in">Log In</string>
+    <string name="your_username">your username</string>
+    <string name="your_password">your password</string>
+    <string name="log_in_but">Log In</string>
+    <string name="home">home</string>
+
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_closed">drawer closed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <array name="category_array">
+        <item>Main</item>
+        <item>second</item>
+        <item>third</item>
+    </array>
+</resources>
