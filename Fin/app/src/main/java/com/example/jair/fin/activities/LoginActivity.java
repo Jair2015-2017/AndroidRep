@@ -14,14 +14,12 @@ import com.example.jair.fin.entity.User;
 public class LoginActivity extends AppCompatActivity {
 
     String thePassword,theUsername;User user;
+    String usernameStr;String passwordStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FinDao finDao = new FinDao(this);
-        user = finDao.getUserByID(1);
-        theUsername = user.getUsername();thePassword = user.getPassword();
     }
 
     public void SignUpEvent(View view) {
@@ -30,12 +28,20 @@ public class LoginActivity extends AppCompatActivity {
 
     public void LogInEvent(View view) {
 
+
+        FinDao finDao = new FinDao(this);
+        user = finDao.getUserByName(usernameStr);
+        if (user == null){
+            Toast.makeText(this, "invalid credentials", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        theUsername = user.getUsername();thePassword = user.getPassword();
         //neem de ingevoerde data van de views op, convert ze naar de String data type en sla de waarde op in een variabel
         EditText username= (EditText) findViewById(R.id.username);
-        String usernameStr= String.valueOf(username.getText());
+        usernameStr= String.valueOf(username.getText());
 
         EditText password= (EditText) findViewById(R.id.password);
-        String passwordStr= String.valueOf(password.getText());
+        passwordStr= String.valueOf(password.getText());
 
         //een check op de username en de password
         if (usernameStr.equals(theUsername)&&passwordStr.equals(thePassword)){

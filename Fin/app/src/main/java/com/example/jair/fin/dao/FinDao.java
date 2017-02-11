@@ -11,17 +11,14 @@ import android.util.Log;
 import com.example.jair.fin.entity.Category;
 import com.example.jair.fin.entity.Transaction;
 import com.example.jair.fin.entity.User;
-import com.example.jair.fin.entity.olap.DateUtil;
-import com.example.jair.fin.entity.olap.Rapport;
-import com.example.jair.fin.entity.olap.TranOnMonth;
+import com.example.jair.fin.olap.DateUtil;
+import com.example.jair.fin.olap.Rapport;
+import com.example.jair.fin.olap.TranOnMonth;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.jair.fin.schema.Schema.DATABASE_NAME;
 import static com.example.jair.fin.schema.Schema.DATABASE_VERSION;
@@ -30,7 +27,6 @@ import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_DESCRIPTION;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_ID;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_NAME;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_TABLE;
-import static com.example.jair.fin.schema.Schema.SchemaCategory.SQL_CAT_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.SQL_CAT_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.DAY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.MONTH;
@@ -38,19 +34,16 @@ import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_AMOUNT;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_CAT_NAME;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_ID;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_TABLE;
-import static com.example.jair.fin.schema.Schema.SchemaRapport.SQL_RAP_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.SQL_RAP_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.WEEK;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.YEAR;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.ASSETS;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.EXPENSES;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.REMAINING;
-import static com.example.jair.fin.schema.Schema.SchemaTranByDate.SQL_TRANDATE_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.SQL_TRANDATE_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.TRANDATE_ID;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.TRANDATE_TABLE;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.CAT_FK;
-import static com.example.jair.fin.schema.Schema.SchemaTransaction.SQL_TRAN_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.SQL_TRAN_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_AMOUNT;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_DATE;
@@ -64,7 +57,6 @@ import static com.example.jair.fin.schema.Schema.SchemaUser.DELETED;
 import static com.example.jair.fin.schema.Schema.SchemaUser.EMAIL;
 import static com.example.jair.fin.schema.Schema.SchemaUser.ID;
 import static com.example.jair.fin.schema.Schema.SchemaUser.NAME_USER;
-import static com.example.jair.fin.schema.Schema.SchemaUser.SQL_USER_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaUser.SQL_USER_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaUser.SURNAME;
 import static com.example.jair.fin.schema.Schema.SchemaUser.USER_NAME;
@@ -158,6 +150,32 @@ public class FinDao extends SQLiteOpenHelper {
 
         cursor = db.query(USER_TABLE, null,
                 ID+" = ?", new String[] { "" + id },null,null,null);
+        if (cursor.moveToFirst()) {
+
+            long user_id = cursor.getLong(cursor.getColumnIndex(ID));
+            String username = cursor.getString(cursor.getColumnIndex(USER_NAME));
+            String password= cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+            String email = cursor.getString(cursor.getColumnIndex(EMAIL));
+            String name_user = cursor.getString(cursor.getColumnIndex(NAME_USER));
+            String surname= cursor.getString(cursor.getColumnIndex(SURNAME));
+            String created= cursor.getString(cursor.getColumnIndex(CREATED));
+            String deleted= cursor.getString(cursor.getColumnIndex(DELETED));
+
+            user = new User(user_id,username,password,email,name_user,surname,created,deleted);
+
+        }
+        db.close();
+        return user;
+    }
+
+    public User getUserByName( String  name ){
+
+        User user = null;
+        Cursor cursor = null;
+        SQLiteDatabase db= getReadableDatabase();
+
+        cursor = db.query(USER_TABLE, null,
+                USER_NAME+" = ?", new String[] { "" + name },null,null,null);
         if (cursor.moveToFirst()) {
 
             long user_id = cursor.getLong(cursor.getColumnIndex(ID));

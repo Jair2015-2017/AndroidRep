@@ -1,10 +1,5 @@
-package com.example.jair.fin.entity.olap;
+package com.example.jair.fin.olap;
 
-import android.text.format.DateFormat;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

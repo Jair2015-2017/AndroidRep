@@ -1,4 +1,4 @@
-package com.example.jair.fin.entity.olap;
+package com.example.jair.fin.olap;
 
 /**
  * Created by Jair on 2/9/2017.
