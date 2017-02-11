@@ -28,20 +28,23 @@ public class LoginActivity extends AppCompatActivity {
 
     public void LogInEvent(View view) {
 
-
+        EditText username= (EditText) findViewById(R.id.username);
+        usernameStr= String.valueOf(username.getText());
         FinDao finDao = new FinDao(this);
         user = finDao.getUserByName(usernameStr);
+        theUsername = user.getUsername();thePassword = user.getPassword();
+        //neem de ingevoerde data van de views op, convert ze naar de String data type en sla de waarde op in een variabel
+
+
+        EditText password= (EditText) findViewById(R.id.password);
+        passwordStr= String.valueOf(password.getText());
+
+
         if (user == null){
             Toast.makeText(this, "invalid credentials", Toast.LENGTH_SHORT).show();
             return;
         }
-        theUsername = user.getUsername();thePassword = user.getPassword();
-        //neem de ingevoerde data van de views op, convert ze naar de String data type en sla de waarde op in een variabel
-        EditText username= (EditText) findViewById(R.id.username);
-        usernameStr= String.valueOf(username.getText());
 
-        EditText password= (EditText) findViewById(R.id.password);
-        passwordStr= String.valueOf(password.getText());
 
         //een check op de username en de password
         if (usernameStr.equals(theUsername)&&passwordStr.equals(thePassword)){
