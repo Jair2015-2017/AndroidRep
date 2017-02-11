@@ -5,6 +5,7 @@ package com.example.jair.fin.activities;
 
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -94,8 +97,6 @@ public class MainActivity extends AppCompatActivity
         actionBarDrawerToggle.syncState();
     }
 
-
-
     @Override
     public boolean onNavigationItemSelected (@NonNull MenuItem item){
 
@@ -121,6 +122,10 @@ public class MainActivity extends AppCompatActivity
             break;
         case R.id.home_drawer_item:
             newfragment = new HomeFragment();
+
+        case R.id.logout_drawer_item:
+            startActivity(new Intent(this,LoginActivity.class));
+            return true;
     }
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -131,8 +136,6 @@ public class MainActivity extends AppCompatActivity
 
         return true;
 }
-
-
 
     public void addSpendingEvent (View view){
 
@@ -204,6 +207,7 @@ public class MainActivity extends AppCompatActivity
             remainingView.setText(String.valueOf(tom.getRemaining()));
             dialog.dismiss();
             Toast.makeText(this, "transaction succesful", Toast.LENGTH_SHORT).show();
+            safe = null;
         }
 
     }
@@ -250,14 +254,16 @@ public class MainActivity extends AppCompatActivity
         String tran_type = "earning";
         String tran_date = String.valueOf(calendar.getTime());
         User user = finDao.getUserByID(1);
+        category = finDao.getCategoryByName("earning");
 
-        transaction = new Transaction(0, tran_name, tran_amount, tran_type, tran_date, user, null);
+        transaction = new Transaction(0, tran_name, tran_amount, tran_type, tran_date, user, category);
 
         contentValues.put(TRAN_NAME, tran_name);
         contentValues.put(TRAN_AMOUNT, tran_amount);
         contentValues.put(TRAN_TYPE, tran_type);
         contentValues.put(TRAN_DATE, tran_date);
         contentValues.put(USER_FK, user.getUser_id());
+        contentValues.put(CAT_FK,category.getCat_id());
 
         finDao.insertTran(contentValues, transaction);
 
@@ -271,11 +277,16 @@ public class MainActivity extends AppCompatActivity
         remainingView.setText(String.valueOf(tom.getRemaining()));
         dialog.dismiss();
         Toast.makeText(this, "transaction succesful", Toast.LENGTH_SHORT).show();
+        safe = null;
     }
 
     public void addEarningCancel(View view){
         addEarningDialog.getDialog().dismiss();
         Toast.makeText(this, "transaction canceled", Toast.LENGTH_SHORT).show();
+    }
+
+    public void LogOutEvent(View view){
+        startActivity(new Intent(this,LoginActivity.class));
     }
 
 }

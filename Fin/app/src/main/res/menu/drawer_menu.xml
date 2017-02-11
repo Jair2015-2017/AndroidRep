@@ -35,6 +35,12 @@
             android:title="settings"
 
         ></item>
-        </group>
+
+        <item
+            android:id="@+id/logout_drawer_item"
+            android:title="log out"
+
+            ></item>
+    </group>
 
 </menu>
