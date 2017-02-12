@@ -22,7 +22,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void SignUpEvent(View view) {
+    public void SignUpEventLogin(View view) {
+
+        startActivity(new Intent(this, SignUpActivity.class));
 
     }
 
@@ -31,35 +33,43 @@ public class LoginActivity extends AppCompatActivity {
         EditText username= (EditText) findViewById(R.id.username);
         usernameStr= String.valueOf(username.getText());
         FinDao finDao = new FinDao(this);
-        user = finDao.getUserByName(usernameStr);
-        theUsername = user.getUsername();thePassword = user.getPassword();
-        //neem de ingevoerde data van de views op, convert ze naar de String data type en sla de waarde op in een variabel
-
-
         EditText password= (EditText) findViewById(R.id.password);
         passwordStr= String.valueOf(password.getText());
 
+        if (usernameStr.equals("")&&passwordStr.equals("")){
+            //code die word gecompiled als de velden niet zijn ingevuld
 
+            Toast.makeText(this, "please insert your username and password", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+        user = finDao.getUserByName(usernameStr);
         if (user == null){
             Toast.makeText(this, "invalid credentials", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
+        theUsername = user.getUsername();thePassword = user.getPassword();
+        //neem de ingevoerde data van de views op, convert ze naar de String data type en sla de waarde op in een variabel
+
+
         //een check op de username en de password
         if (usernameStr.equals(theUsername)&&passwordStr.equals(thePassword)){
             //code die word gecompiled als de password en de username correct zijn
 
-            Intent intent = new Intent(this,StartActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("username",usernameStr);
             startActivity(intent);
 
-        }else if (usernameStr.equals("")&&passwordStr.equals("")){
+        }
+        /*else if (usernameStr.equals("")&&passwordStr.equals("")){
             //code die word gecompiled als de velden niet zijn ingevuld
 
             Toast.makeText(this, "please insert your username and password", Toast.LENGTH_SHORT).show();
 
-        }else{
+        }*/
+        else{
             //code die word gecompiled als de credentials niet voldoen
 
             Toast.makeText(this, "invalid credentials", Toast.LENGTH_SHORT).show();

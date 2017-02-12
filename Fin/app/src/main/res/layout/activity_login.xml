@@ -52,7 +52,7 @@
         android:layout_toStartOf="@+id/username"
         android:layout_marginTop="23dp"
         android:id="@+id/signup"
-        android:onClick="SignUpEvent"/>
+        android:onClick="SignUpEventLogin"/>
 
     <Button
         android:text="@string/log_in_but"
