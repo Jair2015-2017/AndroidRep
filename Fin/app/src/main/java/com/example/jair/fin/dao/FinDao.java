@@ -268,6 +268,29 @@ public class FinDao extends SQLiteOpenHelper {
 
     }
 
+    public Category getCategoryByBudget( String name){
+        Category category = null;
+        Cursor cursor = null;
+        SQLiteDatabase db= getReadableDatabase();
+
+        cursor = db.query(CAT_TABLE, null,
+                BUDGET_NAME+" = ?", new String[] { "" + name },null,null,null);
+        if (cursor.moveToFirst()) {
+
+            long cat_id = cursor.getLong(cursor.getColumnIndex(CAT_ID));
+            String cat_name = cursor.getString(cursor.getColumnIndex(CAT_NAME));
+            String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
+            double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
+            String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
+
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
+
+        }
+        db.close();
+        return category;
+
+    }
+
     public boolean deleteCategoryByID( long id ){
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(CAT_TABLE, CAT_ID + " = ?", new String[] { String.valueOf(id) })>0;

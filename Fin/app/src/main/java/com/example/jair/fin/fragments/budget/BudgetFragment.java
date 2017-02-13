@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jair.fin.R;
@@ -41,6 +42,23 @@ public class BudgetFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_budgets, container, false);
         listview = (ListView) view.findViewById(R.id.listview);
+
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+               // Toast.makeText(getActivity(), "long"+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                EditBudget dialog= new EditBudget();
+
+                String cat =  String.valueOf(parent.getItemAtPosition(position));
+                dialog.category = findao.getCategoryByBudget(cat);
+
+                dialog.show(getActivity().getSupportFragmentManager(),"edit_budget");
+
+                return false;
+            }
+        });
+
         populateListView();
         return view;
     }

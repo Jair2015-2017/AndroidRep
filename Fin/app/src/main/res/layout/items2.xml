@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete_budget"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:background="@android:drawable/ic_delete"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_budget"
+        android:background="@android:drawable/ic_menu_edit"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_marginRight="37dp"
+        android:layout_marginEnd="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/delete_budget"
+        android:layout_toStartOf="@+id/delete_budget" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_height="wrap_content"
+        android:id="@+id/budget_name_item"
+        android:layout_alignTop="@+id/edit_budget"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="150dp"
+        android:layout_alignParentBottom="true"
+        android:textStyle="normal|bold"
+        android:textSize="30sp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/budget_name_item"
+        android:id="@+id/budget_amount_item"
+        android:textSize="14sp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/edit_budget"
+        android:layout_toRightOf="@+id/budget_name_item"
+        android:layout_toEndOf="@+id/budget_name_item"
+        android:layout_width="75dp" />
+</RelativeLayout>

@@ -5,6 +5,7 @@ package com.example.jair.fin.activities;
 
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +44,7 @@ import com.example.jair.fin.fragments.SettingsFragment;
 import com.example.jair.fin.fragments.Home.AddSpendingDialog;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.CAT_FK;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_AMOUNT;
@@ -295,6 +301,9 @@ public class MainActivity extends AppCompatActivity
 
         addBudgetDialog = new AddBudgetDialog();
         addBudgetDialog.show(getSupportFragmentManager(),"add_budget_diag");
+        //dus hier word een row van tabel categories upgedate, where columnaam is budgetnaam en budget
+        //de category kan j krijgen door het te getten van die dialog
+        //addBudgetDialog.getCategory(); en dan update je deze category
 
     }
 
@@ -303,10 +312,47 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "no budget added", Toast.LENGTH_SHORT).show();
     }
 
+
 }
 
 
+ /* public class BudgetAdapter extends ArrayAdapter<String> {
 
+        public int layout;
+        public BudgetAdapter(Context context, int resource, List<String> objects) {
+
+            super(context, resource, objects);
+            layout=resource;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder mainViewholder=null;
+            if (convertView==null){
+                LayoutInflater inflater= LayoutInflater.from(getContext());
+                convertView = inflater.inflate(layout,parent,false);
+                ViewHolder viewHolder= new ViewHolder();
+                viewHolder.budgetName = (TextView) convertView.findViewById(R.id.budget_name_item);
+                viewHolder.budget = (TextView) convertView.findViewById(R.id.budget_amount_item);
+                viewHolder.edit = (Button) convertView.findViewById(R.id.edit_budget);
+                viewHolder.delete = (Button) convertView.findViewById(R.id.delete_budget);
+                convertView.setTag(viewHolder);
+
+            }else{
+                mainViewholder = (ViewHolder) convertView.getTag();
+                mainViewholder.budgetName.setText("its working!!!");
+            }
+            return super.getView(position, convertView, parent);
+        }
+        public class ViewHolder{
+            TextView budgetName;
+            TextView budget;
+            Button edit;
+            Button delete;
+        }
+    } */
 
 
 
