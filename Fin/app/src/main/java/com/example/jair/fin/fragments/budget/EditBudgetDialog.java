@@ -13,14 +13,14 @@ import android.widget.TextView;
 import com.example.jair.fin.R;
 import com.example.jair.fin.dto.Category;
 
-public class EditBudget extends DialogFragment {
+public class EditBudgetDialog extends DialogFragment {
 
 
-    public EditBudget() {
+    public EditBudgetDialog() {
         // Required empty public constructor
     }
 
-    Category category;
+    public Category category;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

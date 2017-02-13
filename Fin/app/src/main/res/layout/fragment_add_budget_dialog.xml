@@ -35,9 +35,9 @@
         <Spinner
             android:layout_height="wrap_content"
             android:id="@+id/budget_category_spinner"
-            android:layout_width="50dp"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_width="250dp" />
 
         <Button
             android:text="ok"
@@ -47,13 +47,14 @@
             android:layout_toRightOf="@+id/add_budget_textView"
             android:layout_toEndOf="@+id/add_budget_textView"
             android:layout_marginBottom="14dp"
-            android:id="@+id/add_budget_ok" />
+            android:id="@+id/addBudgetOk"
+            android:onClick="addBudgetOk"/>
 
         <Button
             android:text="@android:string/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/add_budget_ok"
+            android:layout_alignTop="@+id/addBudgetOk"
             android:layout_toLeftOf="@+id/add_budget_textView"
             android:layout_toStartOf="@+id/add_budget_textView"
             android:id="@+id/add_budget_cancel"
@@ -67,7 +68,7 @@
             android:ems="10"
             android:id="@+id/budget_amount_input"
             android:hint="budget"
-            android:layout_above="@+id/add_budget_ok"
+            android:layout_above="@+id/addBudgetOk"
             android:layout_alignLeft="@+id/budget_name_input"
             android:layout_alignStart="@+id/budget_name_input"
             android:layout_marginBottom="33dp" />

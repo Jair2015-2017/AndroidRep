@@ -302,6 +302,22 @@ public class FinDao extends SQLiteOpenHelper {
         return db.update(CAT_TABLE, contentValues, CAT_ID+ " = " + id, null)>0;
     }
 
+    public boolean addBudget(long categoryID ,String budgetName,double budget){
+
+        ContentValues contentValues= new ContentValues();
+        contentValues.put(BUDGET_NAME,budgetName);
+        contentValues.put(BUDGET,budget);
+        return updateCategoryByID(categoryID,contentValues);
+
+    }
+
+    public boolean deleteBudget(long categoryID){
+
+        ContentValues contentValues= new ContentValues();
+        contentValues.put(BUDGET_NAME,"no budget");
+        contentValues.put(BUDGET,0);
+        return updateCategoryByID(categoryID,contentValues);
+    }
 
     public List<Category> getAllCategories(){
         SQLiteDatabase db = getReadableDatabase();

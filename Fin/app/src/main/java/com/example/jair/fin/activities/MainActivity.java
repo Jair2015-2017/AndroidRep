@@ -33,6 +33,7 @@ import com.example.jair.fin.dto.Category;
 import com.example.jair.fin.dto.Transaction;
 import com.example.jair.fin.dto.User;
 import com.example.jair.fin.fragments.budget.AddBudgetDialog;
+import com.example.jair.fin.fragments.budget.EditBudgetDialog;
 import com.example.jair.fin.olap.TranOnMonth;
 import com.example.jair.fin.fragments.Home.AddEarningDialog;
 import com.example.jair.fin.fragments.account.AccountFragment;
@@ -43,9 +44,11 @@ import com.example.jair.fin.fragments.RapportFragment;
 import com.example.jair.fin.fragments.SettingsFragment;
 import com.example.jair.fin.fragments.Home.AddSpendingDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.example.jair.fin.fragments.budget.BudgetFragment.editBudgetDialog;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.CAT_FK;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_AMOUNT;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_DATE;
@@ -68,6 +71,8 @@ public class MainActivity extends AppCompatActivity
     AddSpendingDialog addSpendingDialog;
     AddEarningDialog addEarningDialog;
     AddBudgetDialog addBudgetDialog;
+
+
     Dialog dialog;
     Transaction transaction;
     TranOnMonth tom;
@@ -299,6 +304,21 @@ public class MainActivity extends AppCompatActivity
 
     public void addBudgetEvent(View view){
 
+        List<Category> categoryList = finDao.getAllCategories();
+        int counter=0;
+        for (Category category : categoryList) {
+
+            String name = category.getBudget_name();
+
+            if (name.equals("no budget")) {
+                counter++;
+            }
+
+        }
+        if (counter == 0) {
+            return;
+        }
+
         addBudgetDialog = new AddBudgetDialog();
         addBudgetDialog.show(getSupportFragmentManager(),"add_budget_diag");
         //dus hier word een row van tabel categories upgedate, where columnaam is budgetnaam en budget
@@ -312,7 +332,85 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "no budget added", Toast.LENGTH_SHORT).show();
     }
 
+    public void addBudgetOk(View view){
 
+        category = addBudgetDialog.getCategory();
+        Dialog dialog=addBudgetDialog.getDialog();
+        finDao = new FinDao(this);
+
+        EditText budgetNameView = (EditText) dialog.findViewById(R.id.budget_name_input);
+        EditText budgetAmountView = (EditText) dialog.findViewById(R.id.budget_amount_input);
+
+        String budgetName = String.valueOf(budgetNameView.getText());
+        double budgetAmount = Double.valueOf(String.valueOf(budgetAmountView.getText()));
+
+        if (finDao.addBudget(category.getCat_id(),budgetName,budgetAmount)){
+            Toast.makeText(this, "budget added", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+
+
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new BudgetFragment());
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle("budget");
+
+        }else{
+            Toast.makeText(this, "budget not added", Toast.LENGTH_SHORT).show();
+
+            addBudgetEvent(view);
+        }
+
+
+    }
+
+    public void editBudgetCancel(View view){
+
+        dialog = editBudgetDialog.getDialog();
+        dialog.dismiss();
+        Toast.makeText(this, "no budget edited", Toast.LENGTH_SHORT).show();
+    }
+
+    public void editBudgetOk(View view){
+        dialog = editBudgetDialog.getDialog();
+        category = editBudgetDialog.category;
+        finDao = new FinDao(this);
+
+        EditText budgetNameView=(EditText)dialog.findViewById(R.id.name_input_edit_budget);
+        EditText budgetAmountView=(EditText)dialog.findViewById(R.id.amount_input_edit_budget);
+
+        String budgetName=String.valueOf(budgetNameView.getText());
+        double budgetAmount = Double.valueOf(String.valueOf(budgetAmountView.getText()));
+
+        if (finDao.addBudget(category.getCat_id(),budgetName,budgetAmount)){
+            Toast.makeText(this, "budget edited", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new BudgetFragment());
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle("budget");
+        }else{
+            Toast.makeText(this, "not edited", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public void deleteBudgetEvent(View view){
+        dialog = editBudgetDialog.getDialog();
+        category = editBudgetDialog.category;
+
+        finDao = new FinDao(this);
+        if (finDao.deleteBudget(category.getCat_id())){
+            Toast.makeText(this, "succesfully deleted", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new BudgetFragment());
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle("budget");
+        }else{
+            Toast.makeText(this, "not deleted", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 

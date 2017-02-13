@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context="com.example.jair.fin.fragments.budget.EditBudget"
+    tools:context="com.example.jair.fin.fragments.budget.EditBudgetDialog"
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
@@ -21,7 +21,8 @@
             style="@style/Widget.AppCompat.Button.Small"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:backgroundTint="@android:color/black"
-            android:elevation="0dp" />
+            android:elevation="0dp"
+            android:onClick="editBudgetCancel"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,16 +65,18 @@
             android:layout_toRightOf="@+id/budget_name_edit_title"
             android:layout_toEndOf="@+id/budget_name_edit_title"
             android:layout_marginBottom="14dp"
-            android:id="@+id/save_edit_budget" />
+            android:id="@+id/save_edit_budget"
+            android:onClick="editBudgetOk"/>
 
         <Button
-            android:text="@android:string/cancel"
+            android:text="delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/save_edit_budget"
             android:layout_alignLeft="@+id/amount_input_edit_budget"
             android:layout_alignStart="@+id/amount_input_edit_budget"
-            android:id="@+id/cancel_edit_budget" />
+            android:id="@+id/cancel_edit_budget"
+            android:onClick="deleteBudgetEvent"/>
 
     </RelativeLayout>
 </FrameLayout>

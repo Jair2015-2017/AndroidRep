@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jair.fin.R;
 import com.example.jair.fin.dao.FinDao;
@@ -50,37 +51,43 @@ public class AddBudgetDialog extends DialogFragment {
 
         finDao = new FinDao(getActivity());
         categoryList = finDao.getAllCategories();
+
         categorynames = new ArrayList<>();
         for (Category category : categoryList) {
-            String name = category.getCat_name();
-            categorynames.add(name);
+
+            String budgetName = category.getBudget_name();
+
+            if (budgetName.equals("no budget")){
+                String name = category.getCat_name();
+                categorynames.add(name);
+            }
         }
-        spinner = (Spinner) view.findViewById(R.id.budget_category_spinner);
-        adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, R.id.txt, categorynames);
+            spinner = (Spinner) view.findViewById(R.id.budget_category_spinner);
+            adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, R.id.txt, categorynames);
 
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-                String name = String.valueOf(parent.getItemAtPosition(position));
-                category = finDao.getCategoryByName(name);
-                //Toast.makeText(getActivity(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-            }
+                    String name = String.valueOf(parent.getItemAtPosition(position));
+                    category = finDao.getCategoryByName(name);
+                    //Toast.makeText(getActivity(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
 
-            }
+                }
 
-        });
+            });
 
-    return view;
+        return view;
     }
 
     public Category getCategory() {
