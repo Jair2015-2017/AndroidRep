@@ -1,4 +1,4 @@
-package com.example.jair.fin.entity;
+package com.example.jair.fin.dto;
 
 /**
  * Created by Jair on 2/4/2017.

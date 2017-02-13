@@ -5,5 +5,5 @@
     <item android:title="log out"
         android:id="@+id/log_out_id"
         app:showAsAction="always"
-        android:onClick="LogOutEvent"/>
+        android:onClick="logOutEvent"/>
 </menu>

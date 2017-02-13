@@ -69,12 +69,16 @@ public class Schema {
         public static final String CAT_ID= "cat_id";
         public static final String CAT_NAME= "cat_name";
         public static final String CAT_DESCRIPTION= "description";
+        public static final String BUDGET_NAME= "budget_name";
+        public static final String BUDGET= "budget";
 
 
         public static final String SQL_CAT_TABLE_QUERY =
                 "create table "+CAT_TABLE+"("+CAT_ID+" INTEGER PRIMARY KEY, "
                         +CAT_NAME+" STRING NOT NULL UNIQUE, "
-                        +CAT_DESCRIPTION+" STRING NOT NULL) ";
+                        +BUDGET_NAME+" STRING, "
+                        +BUDGET+" DOUBLE, "
+                        +CAT_DESCRIPTION+" STRING) ";
 
         public static final String SQL_CAT_TABLE_DROP = "DROP TABLE IF EXISTS "+CAT_TABLE;
 

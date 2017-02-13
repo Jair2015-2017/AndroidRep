@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.example.jair.fin.R;
 import com.example.jair.fin.dao.FinDao;
-import com.example.jair.fin.entity.User;
+import com.example.jair.fin.dto.User;
 
 public class LoginActivity extends AppCompatActivity {
 

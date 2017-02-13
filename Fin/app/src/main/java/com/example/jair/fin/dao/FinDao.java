@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
-import com.example.jair.fin.entity.Category;
-import com.example.jair.fin.entity.Transaction;
-import com.example.jair.fin.entity.User;
+import com.example.jair.fin.dto.Category;
+import com.example.jair.fin.dto.Transaction;
+import com.example.jair.fin.dto.User;
 import com.example.jair.fin.olap.DateUtil;
 import com.example.jair.fin.olap.Rapport;
 import com.example.jair.fin.olap.TranOnMonth;
@@ -23,10 +23,13 @@ import java.util.List;
 import static com.example.jair.fin.schema.Schema.DATABASE_NAME;
 import static com.example.jair.fin.schema.Schema.DATABASE_VERSION;
 
+import static com.example.jair.fin.schema.Schema.SchemaCategory.BUDGET;
+import static com.example.jair.fin.schema.Schema.SchemaCategory.BUDGET_NAME;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_DESCRIPTION;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_ID;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_NAME;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.CAT_TABLE;
+import static com.example.jair.fin.schema.Schema.SchemaCategory.SQL_CAT_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaCategory.SQL_CAT_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.DAY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.MONTH;
@@ -34,16 +37,19 @@ import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_AMOUNT;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_CAT_NAME;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_ID;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.RAP_TABLE;
+import static com.example.jair.fin.schema.Schema.SchemaRapport.SQL_RAP_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.SQL_RAP_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.WEEK;
 import static com.example.jair.fin.schema.Schema.SchemaRapport.YEAR;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.ASSETS;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.EXPENSES;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.REMAINING;
+import static com.example.jair.fin.schema.Schema.SchemaTranByDate.SQL_TRANDATE_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.SQL_TRANDATE_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.TRANDATE_ID;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.TRANDATE_TABLE;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.CAT_FK;
+import static com.example.jair.fin.schema.Schema.SchemaTransaction.SQL_TRAN_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.SQL_TRAN_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_AMOUNT;
 import static com.example.jair.fin.schema.Schema.SchemaTransaction.TRAN_DATE;
@@ -57,6 +63,7 @@ import static com.example.jair.fin.schema.Schema.SchemaUser.DELETED;
 import static com.example.jair.fin.schema.Schema.SchemaUser.EMAIL;
 import static com.example.jair.fin.schema.Schema.SchemaUser.ID;
 import static com.example.jair.fin.schema.Schema.SchemaUser.NAME_USER;
+import static com.example.jair.fin.schema.Schema.SchemaUser.SQL_USER_TABLE_DROP;
 import static com.example.jair.fin.schema.Schema.SchemaUser.SQL_USER_TABLE_QUERY;
 import static com.example.jair.fin.schema.Schema.SchemaUser.SURNAME;
 import static com.example.jair.fin.schema.Schema.SchemaUser.USER_NAME;
@@ -72,6 +79,7 @@ public class FinDao extends SQLiteOpenHelper {
     public FinDao(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         updateDatabase(0);
+        //theCates();
 
         //defUser();
     }
@@ -96,7 +104,7 @@ public class FinDao extends SQLiteOpenHelper {
         SQLiteDatabase db=getWritableDatabase();
         try{
 
-           /* db.execSQL("drop table if exists account_table");
+          /*  db.execSQL("drop table if exists account_table");
             db.execSQL("drop table if exists month_rapport_table ");db.execSQL("drop table if exists spending_category_table");
             db.execSQL("drop table if exists spending_date_table");db.execSQL("drop table if exists spending_table");
             db.execSQL(SQL_USER_TABLE_DROP);
@@ -104,7 +112,7 @@ public class FinDao extends SQLiteOpenHelper {
             db.execSQL(SQL_RAP_TABLE_DROP);
             db.execSQL(SQL_CAT_TABLE_DROP);
             db.execSQL(SQL_TRANDATE_TABLE_DROP);
-            */
+*/
             db.execSQL(SQL_USER_TABLE_QUERY);
             db.execSQL(SQL_TRAN_TABLE_QUERY);
             db.execSQL(SQL_RAP_TABLE_QUERY);
@@ -226,8 +234,10 @@ public class FinDao extends SQLiteOpenHelper {
             long cat_id = cursor.getLong(cursor.getColumnIndex(CAT_ID));
             String cat_name = cursor.getString(cursor.getColumnIndex(CAT_NAME));
             String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
+            double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
+            String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
 
-            category = new Category(cat_id,cat_name,cat_description);
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
 
         }
         db.close();
@@ -247,8 +257,10 @@ public class FinDao extends SQLiteOpenHelper {
             long cat_id = cursor.getLong(cursor.getColumnIndex(CAT_ID));
             String cat_name = cursor.getString(cursor.getColumnIndex(CAT_NAME));
             String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
+            double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
+            String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
 
-            category = new Category(cat_id,cat_name,cat_description);
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
 
         }
         db.close();
@@ -545,16 +557,20 @@ public class FinDao extends SQLiteOpenHelper {
 
     void theCates(){
 
-        catMeth("food","spending on food");catMeth("entertainment","movies,going to the mall,going to a show");
-        catMeth("clothing & beauty","clothes you buy etc");catMeth("transportation","taking the bus, paying for benzine");
+        catMeth("food","spending on food","food budget",200);
+        catMeth("entertainment","movies,going to the mall,going to a show","entert budget",300);
+        catMeth("clothing & beauty","clothes you buy etc","clothes budget",100);
+        catMeth("transportation","taking the bus, paying for benzine","car budget",50);
 
     }
 
-    void catMeth(String name,String description) {
+    void catMeth(String name,String description,String budget_name,double budget) {
 
         ContentValues contentValues=new ContentValues();
         contentValues.put(CAT_NAME,name);
         contentValues.put(CAT_DESCRIPTION,description);
+        contentValues.put(BUDGET_NAME,budget_name);
+        contentValues.put(BUDGET,budget);
 
         insertCategory(contentValues);
     }

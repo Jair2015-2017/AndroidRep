@@ -1,0 +1,75 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jair.fin.fragments.budget.AddBudgetDialog">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <TextView
+            android:text="Add Budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:id="@+id/add_budget_textView"
+            android:textStyle="normal|bold"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_marginTop="44dp"
+            android:id="@+id/budget_name_input"
+            android:layout_below="@+id/add_budget_textView"
+            android:layout_centerHorizontal="true"
+            android:hint="budget name" />
+
+        <Spinner
+            android:layout_height="wrap_content"
+            android:id="@+id/budget_category_spinner"
+            android:layout_width="50dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:layout_below="@+id/budget_category_spinner"
+            android:layout_alignLeft="@+id/budget_name_input"
+            android:layout_alignStart="@+id/budget_name_input"
+            android:layout_marginTop="49dp"
+            android:id="@+id/budget_amount_input"
+            android:hint="budget" />
+
+        <Button
+            android:text="ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/add_budget_textView"
+            android:layout_toEndOf="@+id/add_budget_textView"
+            android:layout_marginBottom="14dp"
+            android:id="@+id/add_budget_ok" />
+
+        <Button
+            android:text="@android:string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/add_budget_ok"
+            android:layout_toLeftOf="@+id/add_budget_textView"
+            android:layout_toStartOf="@+id/add_budget_textView"
+            android:id="@+id/add_budget_cancel"
+            android:onClick="addBudgetCancel"
+            />
+    </RelativeLayout>
+</FrameLayout>

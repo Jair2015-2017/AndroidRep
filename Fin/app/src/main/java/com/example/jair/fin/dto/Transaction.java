@@ -1,6 +1,4 @@
-package com.example.jair.fin.entity;
-
-import android.widget.TextView;
+package com.example.jair.fin.dto;
 
 /**
  * Created by Jair on 2/9/2017.

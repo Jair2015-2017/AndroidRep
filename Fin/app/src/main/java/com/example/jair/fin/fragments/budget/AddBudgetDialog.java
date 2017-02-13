@@ -1,4 +1,4 @@
-package com.example.jair.fin.fragments.Home;
+package com.example.jair.fin.fragments.budget;
 
 
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jair.fin.R;
-import com.example.jair.fin.activities.MainActivity;
 import com.example.jair.fin.dao.FinDao;
 import com.example.jair.fin.dto.Category;
 
@@ -23,7 +22,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddSpendingDialog extends DialogFragment {
+public class AddBudgetDialog extends DialogFragment {
+
     Spinner spinner;
     ArrayAdapter<String> adapter;
     List<String> categorynames;
@@ -31,8 +31,7 @@ public class AddSpendingDialog extends DialogFragment {
     Category category;
     String array;
     FinDao finDao;
-
-    public AddSpendingDialog() {
+    public AddBudgetDialog() {
         // Required empty public constructor
     }
 
@@ -41,50 +40,51 @@ public class AddSpendingDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_add_budget_dialog, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_add_spending_dialog, container, false);
-        array = MainActivity.safe;
-
-        if (array != null){
+        /* if (array != null) {
             TextView name = (TextView) view.findViewById(R.id.add_expense_name_input);
             name.setText(array);
 
-        }
-        finDao= new FinDao(getActivity());
-        categoryList=finDao.getAllCategories();categorynames=new ArrayList<>();
-        for (Category category: categoryList){
+        }*/
+
+        finDao = new FinDao(getActivity());
+        categoryList = finDao.getAllCategories();
+        categorynames = new ArrayList<>();
+        for (Category category : categoryList) {
             String name = category.getCat_name();
             categorynames.add(name);
         }
-        spinner = (Spinner) view.findViewById(R.id.category_spinner);
-        adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_layout,R.id.txt,categorynames);
+        spinner = (Spinner) view.findViewById(R.id.budget_category_spinner);
+        adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, R.id.txt, categorynames);
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                    String name = String.valueOf(parent.getItemAtPosition(position));
-                    category = finDao.getCategoryByName(name);
-                    //Toast.makeText(getActivity(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                String name = String.valueOf(parent.getItemAtPosition(position));
+                category = finDao.getCategoryByName(name);
+                //Toast.makeText(getActivity(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
 
 
-                }
+            }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
 
-                }
+            }
 
-            });
+        });
 
-        return view;
+    return view;
     }
 
     public Category getCategory() {
         return category;
     }
+
 }

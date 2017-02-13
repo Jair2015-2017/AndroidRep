@@ -24,13 +24,14 @@ import android.widget.Toast;
 
 
 import com.example.jair.fin.dao.FinDao;
-import com.example.jair.fin.entity.Category;
-import com.example.jair.fin.entity.Transaction;
-import com.example.jair.fin.entity.User;
+import com.example.jair.fin.dto.Category;
+import com.example.jair.fin.dto.Transaction;
+import com.example.jair.fin.dto.User;
+import com.example.jair.fin.fragments.budget.AddBudgetDialog;
 import com.example.jair.fin.olap.TranOnMonth;
 import com.example.jair.fin.fragments.Home.AddEarningDialog;
 import com.example.jair.fin.fragments.account.AccountFragment;
-import com.example.jair.fin.fragments.BudgetFragment;
+import com.example.jair.fin.fragments.budget.BudgetFragment;
 import com.example.jair.fin.fragments.Home.HomeFragment;
 import com.example.jair.fin.R;
 import com.example.jair.fin.fragments.RapportFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     public static String safe =null;
     AddSpendingDialog addSpendingDialog;
     AddEarningDialog addEarningDialog;
+    AddBudgetDialog addBudgetDialog;
     Dialog dialog;
     Transaction transaction;
     TranOnMonth tom;
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+
     }
 
     @Override
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected (@NonNull MenuItem item){
+    public boolean onNavigationItemSelected (@NonNull MenuItem item)    {
 
     Fragment newfragment = null;
     String title = null;
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity
             break;
         case R.id.home_drawer_item:
             newfragment = new HomeFragment();
+            break;
 
         case R.id.logout_drawer_item:
             startActivity(new Intent(this,LoginActivity.class));
@@ -283,8 +287,20 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "transaction canceled", Toast.LENGTH_SHORT).show();
     }
 
-    public void LogOutEvent(View view){
+    public void logOutEvent(View view){
         startActivity(new Intent(this,LoginActivity.class));
+    }
+
+    public void addBudgetEvent(View view){
+
+        addBudgetDialog = new AddBudgetDialog();
+        addBudgetDialog.show(getSupportFragmentManager(),"add_budget_diag");
+
+    }
+
+    public void addBudgetCancel(View view){
+        addBudgetDialog.getDialog().dismiss();
+        Toast.makeText(this, "no budget added", Toast.LENGTH_SHORT).show();
     }
 
 }
