@@ -1,4 +1,4 @@
-package com.example.jair.fin.olap;
+package com.example.jair.fin.dto.olap;
 
 /**
  * Created by Jair on 2/9/2017.
@@ -13,8 +13,9 @@ public class Rapport {
     private int month;
     private int year;
     private double amount;
+    private long user_fk;
 
-    public Rapport(long rap_id, String cat_name, int day, int week, int month, int year, double amount) {
+    public Rapport(long rap_id, String cat_name, int day, int week, int month, int year, double amount, long user_fk) {
         this.rap_id = rap_id;
         this.cat_name = cat_name;
         this.day = day;
@@ -22,6 +23,15 @@ public class Rapport {
         this.month = month;
         this.year = year;
         this.amount = amount;
+        this.user_fk = user_fk;
+    }
+
+    public long getUser_fk() {
+        return user_fk;
+    }
+
+    public void setUser_fk(int user_fk) {
+        this.user_fk = user_fk;
     }
 
     public long getRap_id() {

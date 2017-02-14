@@ -13,17 +13,27 @@ public class Category {
     private String cat_description;
     private String budget_name;
     private double budget;
+    private User user;
 
     public Category(){
 
     }
 
-    public Category(long cat_id, String cat_name, String cat_description, String budget_name, double budget) {
+    public Category(long cat_id, String cat_name, String cat_description, String budget_name, double budget, User user) {
         this.cat_id = cat_id;
         this.cat_name = cat_name;
         this.cat_description = cat_description;
         this.budget_name = budget_name;
         this.budget = budget;
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getBudget_name() {

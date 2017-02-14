@@ -14,6 +14,7 @@ import com.example.jair.fin.dao.FinDao;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.ASSETS;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.EXPENSES;
 import static com.example.jair.fin.schema.Schema.SchemaTranByDate.REMAINING;
+import static com.example.jair.fin.schema.Schema.SchemaTranByDate.USER_FK;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class StartActivity extends AppCompatActivity {
         contentValues.put(ASSETS,income);
         contentValues.put(EXPENSES,expense);
         contentValues.put(REMAINING,income-expense);
+        contentValues.put(USER_FK,finDao.getUserByName(username).getUser_id());
         finDao.insertTOM(contentValues);
 
         Intent intent = new Intent(this,MainActivity.class);

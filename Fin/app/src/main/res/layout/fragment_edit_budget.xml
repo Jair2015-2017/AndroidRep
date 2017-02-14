@@ -78,5 +78,28 @@
             android:id="@+id/cancel_edit_budget"
             android:onClick="deleteBudgetEvent"/>
 
+        <TextView
+            android:text="category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/budget_name_edit_title"
+            android:layout_alignLeft="@+id/name_input_edit_budget"
+            android:layout_alignStart="@+id/name_input_edit_budget" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cat_name_edit_budget"
+            android:textSize="24sp"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_alignRight="@+id/name_input_edit_budget"
+            android:layout_alignEnd="@+id/name_input_edit_budget"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
+
     </RelativeLayout>
 </FrameLayout>

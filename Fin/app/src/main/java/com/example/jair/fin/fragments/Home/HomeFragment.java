@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.jair.fin.R;
 import com.example.jair.fin.dao.FinDao;
-import com.example.jair.fin.olap.TranOnMonth;
+import com.example.jair.fin.dto.olap.TranOnMonth;
 
 
 /**

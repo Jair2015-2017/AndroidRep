@@ -44,7 +44,7 @@ public class Schema {
         public static final String TRAN_AMOUNT="amount";
         public static final String TRAN_TYPE="type";
         public static final String TRAN_DATE= "date";
-        public static final String USER_FK="user_fk";
+        public static final String USER_FK="user_id";
         public static final String CAT_FK="category_fk";
 
         public static final String SQL_TRAN_TABLE_QUERY =
@@ -71,6 +71,8 @@ public class Schema {
         public static final String CAT_DESCRIPTION= "description";
         public static final String BUDGET_NAME= "budget_name";
         public static final String BUDGET= "budget";
+        public static final String USER_FK = "user_id";
+
 
 
         public static final String SQL_CAT_TABLE_QUERY =
@@ -78,6 +80,7 @@ public class Schema {
                         +CAT_NAME+" STRING NOT NULL UNIQUE, "
                         +BUDGET_NAME+" STRING, "
                         +BUDGET+" DOUBLE, "
+                        +USER_FK+" INTEGER, "
                         +CAT_DESCRIPTION+" STRING) ";
 
         public static final String SQL_CAT_TABLE_DROP = "DROP TABLE IF EXISTS "+CAT_TABLE;
@@ -94,6 +97,7 @@ public class Schema {
         public static final String MONTH = "month";
         public static final String YEAR = "year";
         public static final String RAP_AMOUNT = "rap_amount";
+        public static final String USER_FK = "user_id";
 
 
         public static final String SQL_RAP_TABLE_QUERY =
@@ -103,6 +107,7 @@ public class Schema {
                         +WEEK+" INTEGER, "
                         +MONTH+" INTEGER, "
                         +YEAR+" INTEGER, "
+                        +USER_FK+" INTEGER, "
                         +RAP_AMOUNT+" DOUBLE )";
         public static final String SQL_RAP_TABLE_DROP = "DROP TABLE IF EXISTS "+RAP_TABLE;
 
@@ -114,12 +119,14 @@ public class Schema {
         public static final String ASSETS = "assets";
         public static final String EXPENSES = "expenses";
         public static final String REMAINING = "remaining";
+        public static final String USER_FK = "user_id";
 
         public static final String SQL_TRANDATE_TABLE_QUERY =
                 "create table "+TRANDATE_TABLE+"("+TRANDATE_ID+" INTEGER PRIMARY KEY, "
                         +ASSETS+" DOUBLE, "
                         +EXPENSES+" DOUBLE, "
-                        +REMAINING+" DOUBLE )";
+                        +REMAINING+" DOUBLE, "
+                        +USER_FK+" INTEGER )";
         public static final String SQL_TRANDATE_TABLE_DROP = "DROP TABLE IF EXISTS "+TRANDATE_TABLE;
 
     }

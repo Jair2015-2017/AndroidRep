@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.jair.fin.R;
 import com.example.jair.fin.dao.FinDao;
@@ -28,6 +29,7 @@ public class BudgetFragment extends Fragment {
     FinDao findao;
     static public EditBudgetDialog editBudgetDialog;
 
+
     public BudgetFragment() {
         // Required empty public constructor
     }
@@ -39,6 +41,11 @@ public class BudgetFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_budgets, container, false);
         listview = (ListView) view.findViewById(R.id.listview);
+        TextView remView = (TextView)view.findViewById(R.id.remaining_for_budget);
+        findao=new FinDao(getActivity());
+        double assets = findao.getLastTOM().getAssets();
+        double budgets = findao.totalBudget();
+        remView.setText(String.valueOf((assets-budgets)));
         populateListView();
 
 

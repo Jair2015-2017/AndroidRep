@@ -5,7 +5,6 @@ package com.example.jair.fin.activities;
 
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,12 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,8 +28,7 @@ import com.example.jair.fin.dto.Category;
 import com.example.jair.fin.dto.Transaction;
 import com.example.jair.fin.dto.User;
 import com.example.jair.fin.fragments.budget.AddBudgetDialog;
-import com.example.jair.fin.fragments.budget.EditBudgetDialog;
-import com.example.jair.fin.olap.TranOnMonth;
+import com.example.jair.fin.dto.olap.TranOnMonth;
 import com.example.jair.fin.fragments.Home.AddEarningDialog;
 import com.example.jair.fin.fragments.account.AccountFragment;
 import com.example.jair.fin.fragments.budget.BudgetFragment;
@@ -44,7 +38,6 @@ import com.example.jair.fin.fragments.RapportFragment;
 import com.example.jair.fin.fragments.SettingsFragment;
 import com.example.jair.fin.fragments.Home.AddSpendingDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -343,7 +336,25 @@ public class MainActivity extends AppCompatActivity
 
         String budgetName = String.valueOf(budgetNameView.getText());
         double budgetAmount = Double.valueOf(String.valueOf(budgetAmountView.getText()));
+        double assets = finDao.getLastTOM().getAssets();
+        double remaining = finDao.getLastTOM().getRemaining();
+        double totalBudgets = finDao.totalBudget();
 
+
+        if (assets<budgetAmount){
+            Toast.makeText(this, "monthly budget cannot be greater than monthly income", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (assets<totalBudgets){
+            Toast.makeText(this, "total budgets are " +(totalBudgets-assets)+" more than income", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (remaining<budgetAmount){
+            Toast.makeText(this, "the budget is greater than remaining", Toast.LENGTH_SHORT).show();
+        }
+        if (budgetName.equals("")){
+            budgetName = "untitled budget";
+        }
         if (finDao.addBudget(category.getCat_id(),budgetName,budgetAmount)){
             Toast.makeText(this, "budget added", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
@@ -380,11 +391,31 @@ public class MainActivity extends AppCompatActivity
 
         String budgetName=String.valueOf(budgetNameView.getText());
         double budgetAmount = Double.valueOf(String.valueOf(budgetAmountView.getText()));
+        double assets = finDao.getLastTOM().getAssets();
+        double remaining = finDao.getLastTOM().getRemaining();
+        double totalBudgets = finDao.totalBudget();
+
+
+        if (assets<budgetAmount){
+            Toast.makeText(this, "monthly budget cannot be greater than monthly income", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (assets<totalBudgets){
+            Toast.makeText(this, "total budgets are " +(totalBudgets-assets)+" more than income", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (remaining<budgetAmount){
+            Toast.makeText(this, "the budget is greater than remaining", Toast.LENGTH_SHORT).show();
+        }
+        if (budgetName.equals("")){
+            budgetName = "untitled budget";
+        }
 
         if (finDao.addBudget(category.getCat_id(),budgetName,budgetAmount)){
             Toast.makeText(this, "budget edited", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
             fragmentTransaction.replace(R.id.main_container, new BudgetFragment());
             fragmentTransaction.commit();
             getSupportActionBar().setTitle("budget");

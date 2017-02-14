@@ -30,13 +30,16 @@ public class EditBudgetDialog extends DialogFragment {
         TextView titleView=(TextView) view.findViewById(R.id.budget_name_edit_title);
         EditText budgetv =(EditText) view.findViewById(R.id.amount_input_edit_budget);
         EditText budgetname=(EditText) view.findViewById(R.id.name_input_edit_budget);
+        TextView cat= (TextView)view.findViewById(R.id.cat_name_edit_budget);
 
         String title = category.getBudget_name();
         String budget = String.valueOf(category.getBudget());
+        String name = category.getCat_name();
 
         titleView.setText(title);
         budgetv.setText(budget);
         budgetname.setText(title);
+        cat.setText(name);
 
         return view;
     }

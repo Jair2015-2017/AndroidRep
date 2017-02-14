@@ -6,14 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import com.example.jair.fin.dto.Category;
 import com.example.jair.fin.dto.Transaction;
 import com.example.jair.fin.dto.User;
-import com.example.jair.fin.olap.DateUtil;
-import com.example.jair.fin.olap.Rapport;
-import com.example.jair.fin.olap.TranOnMonth;
+import com.example.jair.fin.dto.olap.DateUtil;
+import com.example.jair.fin.dto.olap.Rapport;
+import com.example.jair.fin.dto.olap.TranOnMonth;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,8 +104,8 @@ public class FinDao extends SQLiteOpenHelper {
         //deze method maakt de tabellen aan
         SQLiteDatabase db=getWritableDatabase();
         try{
-
-          /*  db.execSQL("drop table if exists account_table");
+/*
+           db.execSQL("drop table if exists account_table");
             db.execSQL("drop table if exists month_rapport_table ");db.execSQL("drop table if exists spending_category_table");
             db.execSQL("drop table if exists spending_date_table");db.execSQL("drop table if exists spending_table");
             db.execSQL(SQL_USER_TABLE_DROP);
@@ -112,13 +113,14 @@ public class FinDao extends SQLiteOpenHelper {
             db.execSQL(SQL_RAP_TABLE_DROP);
             db.execSQL(SQL_CAT_TABLE_DROP);
             db.execSQL(SQL_TRANDATE_TABLE_DROP);
-*/
-            db.execSQL(SQL_USER_TABLE_QUERY);
+
+    */        db.execSQL(SQL_USER_TABLE_QUERY);
             db.execSQL(SQL_TRAN_TABLE_QUERY);
             db.execSQL(SQL_RAP_TABLE_QUERY);
             db.execSQL(SQL_CAT_TABLE_QUERY);
             db.execSQL(SQL_TRANDATE_TABLE_QUERY);
 
+           // theCates();
 
         }catch (Exception e){
 
@@ -236,8 +238,9 @@ public class FinDao extends SQLiteOpenHelper {
             String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
             double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
             String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
+            long user_id =cursor.getLong(cursor.getColumnIndex(USER_FK));
 
-            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget,getUserByID(user_id));
 
         }
         db.close();
@@ -258,9 +261,10 @@ public class FinDao extends SQLiteOpenHelper {
             String cat_name = cursor.getString(cursor.getColumnIndex(CAT_NAME));
             String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
             double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
+            long user_id =cursor.getLong(cursor.getColumnIndex(USER_FK));
             String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
 
-            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget,getUserByID(user_id));
 
         }
         db.close();
@@ -277,13 +281,16 @@ public class FinDao extends SQLiteOpenHelper {
                 BUDGET_NAME+" = ?", new String[] { "" + name },null,null,null);
         if (cursor.moveToFirst()) {
 
+
             long cat_id = cursor.getLong(cursor.getColumnIndex(CAT_ID));
             String cat_name = cursor.getString(cursor.getColumnIndex(CAT_NAME));
             String cat_description = cursor.getString(cursor.getColumnIndex(CAT_DESCRIPTION));
             double budget = cursor.getDouble(cursor.getColumnIndex(BUDGET));
+            long user_id =cursor.getLong(cursor.getColumnIndex(USER_FK));
             String budget_name = cursor.getString(cursor.getColumnIndex(BUDGET_NAME));
 
-            category = new Category(cat_id,cat_name,cat_description,budget_name,budget);
+            category = new Category(cat_id,cat_name,cat_description,budget_name,budget,getUserByID(user_id));
+
 
         }
         db.close();
@@ -342,6 +349,14 @@ public class FinDao extends SQLiteOpenHelper {
         return list;
     }
 
+    public double totalBudget(){
+        double budget=0;
+        List<Category> list=getAllCategories();
+        for (Category c:list){
+            budget = budget+c.getBudget();
+        }
+        return budget;
+    }
 
     public void insertTran(ContentValues contentValues,Transaction transaction){
         //deze method nsert data in de aangegeven table
@@ -441,12 +456,51 @@ public class FinDao extends SQLiteOpenHelper {
             int month = cursor.getInt(cursor.getColumnIndex(MONTH));
             int year = cursor.getInt(cursor.getColumnIndex(YEAR));
             double amount = cursor.getDouble(cursor.getColumnIndex(RAP_AMOUNT));
+            long user_id = cursor.getLong(cursor.getColumnIndex(USER_FK));
 
-            rapport = new Rapport(rap_id,cat_name,day,week,month,year,amount);
+            rapport = new Rapport(rap_id,cat_name,day,week,month,year,amount,user_id);
         }
         db.close();
         return rapport;
 
+    }
+
+    public List<Rapport> getUserRapportS(long user_id){
+        Rapport rapport = null;
+        Cursor cursor = null;
+        SQLiteDatabase db= getReadableDatabase();
+        List<Rapport> list=new ArrayList<>();
+
+        cursor = db.query(RAP_TABLE, null,
+                USER_FK+" = ?", new String[] { "" + user_id },null,null,null);
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                long rap_id = cursor.getLong(cursor.getColumnIndex(RAP_ID));
+                String cat_name = cursor.getString(cursor.getColumnIndex(RAP_CAT_NAME));
+                int day = cursor.getInt(cursor.getColumnIndex(DAY));
+                int week = cursor.getInt(cursor.getColumnIndex(WEEK));
+                int month = cursor.getInt(cursor.getColumnIndex(MONTH));
+                int year = cursor.getInt(cursor.getColumnIndex(YEAR));
+                double amount = cursor.getDouble(cursor.getColumnIndex(RAP_AMOUNT));
+                long user_fk = cursor.getLong(cursor.getColumnIndex(USER_FK));
+
+                rapport = new Rapport(rap_id, cat_name, day, week, month, year, amount, user_fk);
+
+                list.add(rapport);
+            }while(!cursor.isAfterLast());
+        }
+        db.close();
+        return list;
+
+    }
+
+    public Rapport getLastUserRapport(long user_id){
+        //TODO needs upgrade
+
+        List<Rapport> rapports=getUserRapportS(user_id);
+        return rapports.get(rapports.size());
     }
 
     public boolean deleteRapByID( long id ){
@@ -482,13 +536,47 @@ public class FinDao extends SQLiteOpenHelper {
             double assets = cursor.getDouble(cursor.getColumnIndex(ASSETS));
             double expenses = cursor.getDouble(cursor.getColumnIndex(EXPENSES));
             double remaining = cursor.getDouble(cursor.getColumnIndex(REMAINING));
+            long user_id = cursor.getLong(cursor.getColumnIndex(USER_FK));
 
-            tranOnMonth = new TranOnMonth(tom_id,assets,expenses,remaining);
+            tranOnMonth = new TranOnMonth(tom_id,assets,expenses,remaining,user_id);
         }
         db.close();
         return tranOnMonth;
 
     }
+
+    public List<TranOnMonth> getUserTom(long user_id){
+        TranOnMonth tranOnMonth = null;
+        Cursor cursor = null;
+        SQLiteDatabase db= getReadableDatabase();
+        List<TranOnMonth> list=new ArrayList<>();
+
+        cursor = db.query(TRAN_DATE, null,
+                USER_FK+" = ?", new String[] { "" + user_id },null,null,null);
+        if (cursor.moveToFirst()) {
+
+            do {
+                long tom_id = cursor.getLong(cursor.getColumnIndex(TRANDATE_ID));
+                double assets = cursor.getDouble(cursor.getColumnIndex(ASSETS));
+                double expenses = cursor.getDouble(cursor.getColumnIndex(EXPENSES));
+                double remaining = cursor.getDouble(cursor.getColumnIndex(REMAINING));
+                long user_fk = cursor.getLong(cursor.getColumnIndex(USER_FK));
+
+                tranOnMonth = new TranOnMonth(tom_id, assets, expenses, remaining, user_fk);
+                list.add(tranOnMonth);
+            }while (!cursor.isAfterLast());
+        }
+        db.close();
+        return list;
+
+    }
+
+    public TranOnMonth getLastUserTom(long user_id){
+        //TODO needs upgrade
+        List<TranOnMonth> tom=getUserTom(user_id);
+        return tom.get(tom.size());
+    }
+
 
     public boolean deleteTOMByID( long id ){
         SQLiteDatabase db = getWritableDatabase();
@@ -517,8 +605,9 @@ public class FinDao extends SQLiteOpenHelper {
             double assets = cursor.getDouble(cursor.getColumnIndex(ASSETS));
             double expenses = cursor.getDouble(cursor.getColumnIndex(EXPENSES));
             double remaining = cursor.getDouble(cursor.getColumnIndex(REMAINING));
+            long user_id = cursor.getLong(cursor.getColumnIndex(USER_FK));
 
-            tranOnMonth = new TranOnMonth(tom_id,assets,expenses,remaining);
+            tranOnMonth = new TranOnMonth(tom_id,assets,expenses,remaining,user_id);
         }
         db.close();
         return tranOnMonth;
@@ -596,20 +685,21 @@ public class FinDao extends SQLiteOpenHelper {
 
     void theCates(){
 
-        catMeth("food","spending on food","food budget",200);
-        catMeth("entertainment","movies,going to the mall,going to a show","entert budget",300);
-        catMeth("clothing & beauty","clothes you buy etc","clothes budget",100);
-        catMeth("transportation","taking the bus, paying for benzine","car budget",50);
+        catMeth("food","spending on food","food budget",200,1);
+        catMeth("entertainment","movies,going to the mall,going to a show","entert budget",300,1);
+        catMeth("clothing & beauty","clothes you buy etc","clothes budget",100,1);
+        catMeth("transportation","taking the bus, paying for benzine","car budget",50,1);
 
     }
 
-    void catMeth(String name,String description,String budget_name,double budget) {
+    void catMeth(String name,String description,String budget_name,double budget,long user_id) {
 
         ContentValues contentValues=new ContentValues();
         contentValues.put(CAT_NAME,name);
         contentValues.put(CAT_DESCRIPTION,description);
         contentValues.put(BUDGET_NAME,budget_name);
         contentValues.put(BUDGET,budget);
+        contentValues.put(USER_FK,user_id);
 
         insertCategory(contentValues);
     }

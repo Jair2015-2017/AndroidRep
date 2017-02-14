@@ -1,4 +1,4 @@
-package com.example.jair.fin.olap;
+package com.example.jair.fin.dto.olap;
 
 import java.util.Date;
 
